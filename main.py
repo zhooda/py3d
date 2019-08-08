@@ -4,6 +4,7 @@ py3d -> 3D graphics engine using pygame
 
 # ### IMPORTS
 import pygame, sys, math
+from camera import Cam, rotate2d
 
 # ### PYGAME INIT
 pygame.init()
@@ -16,11 +17,17 @@ clock = pygame.time.Clock()
 verts = (-1,-1,-1),(1,-1,-1),(1,1,-1),(-1,1,-1),(-1,-1,1),(1,-1,1),(1,1,1),(-1,1,1)
 edges = (0, 1),(1, 2),(2, 3),(3, 0),(4, 5),(5, 6),(6, 7),(7, 4),(0, 4),(1, 5),(2, 6),(3, 7)
 
+cam = Cam((0,0,-5))
+
+radian = 0
+
 # ### WINDOW WHILE LOOP
 while True:
 
 	# clock tick time delta
 	dt = clock.tick()/1000
+
+	radian += dt
 
 	# event handler
 	for event in pygame.event.get():
@@ -33,27 +40,32 @@ while True:
 	# screen fill white
 	screen.fill((255,255,255))
 
-	# drawing points
-	for x,y,z in verts:
-
-		# bringing everything closer to the "camera"
-		z += 5
-
-		# multiplier to make the depth illusion
-		f = 200/z
-		x,y = x*f,y*f
-
-		pygame.draw.circle(screen, (0,0,0), (cx+int(x), cy+int(y)), 6)
-
+	
 	# drawing edges
 	for edge in edges:
 
+		# temp list of points for drawing lines
 		points = []
+
+		# find positions of lines based on respective verts
 		for x,y,z in (verts[edge[0]],verts[edge[1]]):
-			z += 5
+
+			x -= cam.pos[0]
+			y -= cam.pos[1]
+			z -= cam.pos[2]
+
+			x,z = rotate2d((x,z), radian)
+
 			f = 200/z
 			x,y = x*f,y*f
 			points += [(cx+int(x), cy+int(y))]
+
+		# draw lines from temp list
 		pygame.draw.line(screen, (0, 0, 255), points[0], points[1], 1)
+	
+
 	# update screen
 	pygame.display.flip()
+
+	keys = pygame.key.get_pressed()
+	cam.update(dt, keys)
