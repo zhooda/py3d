@@ -54,6 +54,6 @@ while True:
 			f = 200/z
 			x,y = x*f,y*f
 			points += [(cx+int(x), cy+int(y))]
-		pygame.draw.line(screen, (0, 0, 0), points[0], points[1], 1)
+		pygame.draw.line(screen, (0, 0, 255), points[0], points[1], 1)
 	# update screen
 	pygame.display.flip()
