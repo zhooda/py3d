@@ -2,6 +2,8 @@
 
 3D Graphics engine written in Python 3 and Pygame. This is not a game engine, it's just a simple library of sorts to project 3D objects on a 2D screen. Most of the code is quite inefficient so if you see something you wanna fix, please make a pull request.
 
+![](demo.gif)
+
 ## Getting Started
 
 These instructions *should* get you a copy of the project up and running
