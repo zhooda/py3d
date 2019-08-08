@@ -34,7 +34,8 @@ while True:
 	for event in pygame.event.get():
 
 		# quit when user exits
-		if event.type == pygame.QUIT:
+		if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+			pygame.quit()
 			sys.exit()
 
 		cam.events(event)
