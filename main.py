@@ -19,7 +19,10 @@ edges = (0, 1),(1, 2),(2, 3),(3, 0),(4, 5),(5, 6),(6, 7),(7, 4),(0, 4),(1, 5),(2
 
 cam = Cam((0,0,-5))
 
-radian = 0
+pygame.event.get()
+pygame.mouse.get_rel()
+pygame.mouse.set_visible(0)
+pygame.event.set_grab(1)
 
 # ### WINDOW WHILE LOOP
 while True:
@@ -27,14 +30,14 @@ while True:
 	# clock tick time delta
 	dt = clock.tick()/1000
 
-	radian += dt
-
 	# event handler
 	for event in pygame.event.get():
 
 		# quit when user exits
 		if event.type == pygame.QUIT:
 			sys.exit()
+
+		cam.events(event)
 
 
 	# screen fill white
@@ -54,7 +57,8 @@ while True:
 			y -= cam.pos[1]
 			z -= cam.pos[2]
 
-			x,z = rotate2d((x,z), radian)
+			x,z = rotate2d((x,z), cam.rot[1])
+			y,z = rotate2d((y,z), cam.rot[0])
 
 			f = 200/z
 			x,y = x*f,y*f

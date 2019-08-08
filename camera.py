@@ -5,6 +5,15 @@ class Cam:
 		self.pos = list(pos)
 		self.rot = list(rot)
 
+	def events(self, event):
+		if event.type == pygame.MOUSEMOTION:
+			x,y = event.rel
+			x/= 200
+			y/= 200
+
+			self.rot[0] += y
+			self.rot[1] += x
+
 	def update(self, dt, key):
 		s = dt*10
 
